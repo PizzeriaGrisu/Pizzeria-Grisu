@@ -74,12 +74,19 @@
             gap: 15px;
             margin: 20px;
         }
+        .menu-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            gap: 15px;
+            margin-bottom: 0;
+        }
         .menu-category {
             text-align: center;
             width: calc(50% - 20px);
             max-width: 200px;
             cursor: pointer;
-            margin-bottom: 15px;
             position: relative;
             transition: all 0.3s ease;
         }
@@ -91,7 +98,7 @@
             width: 100%;
             height: 150px;
             object-fit: cover;
-            border-radius: 10px 10px 0 0;
+            border-radius: 10px;
             transition: all 0.3s ease;
         }
         .menu-category.active img {
@@ -108,29 +115,39 @@
         }
         .menu-category.active div {
             background: #444;
-            border-radius: 5px 5px 0 0;
+        }
+        .pizza-list-container {
+            width: 100%;
+            display: none;
+            margin-top: 10px;
         }
         .pizza-list {
-            display: none;
-            margin: -10px auto 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             background: #222;
             padding: 20px;
-            border-radius: 0 0 10px 10px;
+            border-radius: 10px;
             opacity: 0;
             transform: scaleY(0);
             transform-origin: top;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            width: calc(100% - 40px);
-            position: relative;
-            z-index: 1;
+            width: 100%;
         }
         .pizza-list.show {
-            display: block;
             opacity: 1;
             transform: scaleY(1);
         }
+        .pizza-column {
+            flex: 1;
+            min-width: 200px;
+            padding: 0 10px;
+            text-align: left;
+        }
         .pizza-list h2 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
         }
         footer {
             margin-top: 40px;
@@ -197,6 +214,9 @@
                 width: calc(50% - 10px);
                 max-width: none;
             }
+            .pizza-column {
+                min-width: 100%;
+            }
             .whatsapp-float {
                 width: 50px;
                 height: 50px;
@@ -221,23 +241,34 @@
             <div class="dot" onclick="goToSlide(2)"></div>
         </div>
     </div>
+    
     <div class="menu">
-        <div class="menu-category" onclick="toggleMenu('classiche', this)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Wikimania_2016_Deryck_day_0_-_07_calzone.jpg/1280px-Wikimania_2016_Deryck_day_0_-_07_calzone.jpg" alt="LE CLASSICHE">
-            <div>LE CLASSICHE</div>
-            <div class="pizza-list"></div>
+        <div class="menu-row">
+            <div class="menu-category" onclick="toggleMenu('classiche', this, 'row1-list')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Wikimania_2016_Deryck_day_0_-_07_calzone.jpg/1280px-Wikimania_2016_Deryck_day_0_-_07_calzone.jpg" alt="LE CLASSICHE">
+                <div>LE CLASSICHE</div>
+            </div>
+            <div class="menu-category" onclick="toggleMenu('speciali', this, 'row1-list')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Paposcia_1.jpg" alt="LE SPECIALI">
+                <div>LE SPECIALI</div>
+            </div>
+            <div class="pizza-list-container" id="row1-list">
+                <div class="pizza-list"></div>
+            </div>
         </div>
-        <div class="menu-category" onclick="toggleMenu('speciali', this)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Paposcia_1.jpg" alt="LE SPECIALI">
-            <div>LE SPECIALI</div>
-            <div class="pizza-list"></div>
-        </div>
-        <div class="menu-category" onclick="toggleMenu('stracchino', this)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pizza_pazza_-_gnocchi_al_pesto.jpg/1280px-Pizza_pazza_-_gnocchi_al_pesto.jpg" alt="CON STRACCHINO">
-            <div>CON STRACCHINO</div>
-            <div class="pizza-list"></div>
+        
+        <div class="menu-row">
+            <div class="menu-category" onclick="toggleMenu('stracchino', this, 'row2-list')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pizza_pazza_-_gnocchi_al_pesto.jpg/1280px-Pizza_pazza_-_gnocchi_al_pesto.jpg" alt="CON STRACCHINO">
+                <div>CON STRACCHINO</div>
+            </div>
+            <!-- اضافه کردن دسته‌بندی‌های بیشتر در اینجا -->
+            <div class="pizza-list-container" id="row2-list">
+                <div class="pizza-list"></div>
+            </div>
         </div>
     </div>
+    
     <footer>
         <div class="footer-info">
             📍 Indirizzo: <span class="address-link" onclick="window.open('https://www.google.com/maps/place/Via+Pontevigodarzere,+38,+35133+Padova+PD/@45.4274995,11.8738792,17z/data=!3m1!4b1!4m6!3m5!1s0x477eda584a3f5e13:0x6d1f9d8e1a0a9c3e!8m2!3d45.4274995!4d11.8764541!16s%2Fg%2F11c5m1m2j0?entry=ttu', '_blank')">Via Pontevigodarzere, 38, 35133 Padova PD</span><br>
@@ -256,17 +287,26 @@
             classiche: [
                 { name: "Margherita", price: "€8" },
                 { name: "Marinara", price: "€7" },
-                { name: "Napoli", price: "€9" }
+                { name: "Napoli", price: "€9" },
+                { name: "Funghi", price: "€9" },
+                { name: "Prosciutto", price: "€10" },
+                { name: "Quattro Formaggi", price: "€11" }
             ],
             speciali: [
                 { name: "Diavola", price: "€10" },
                 { name: "Capricciosa", price: "€11" },
-                { name: "Quattro Stagioni", price: "€12" }
+                { name: "Quattro Stagioni", price: "€12" },
+                { name: "Calzone", price: "€12" },
+                { name: "Rustica", price: "€13" },
+                { name: "Vegetariana", price: "€11" }
             ],
             stracchino: [
                 { name: "Stracchino e Rucola", price: "€9" },
                 { name: "Stracchino e Speck", price: "€10" },
-                { name: "Stracchino e Noci", price: "€11" }
+                { name: "Stracchino e Noci", price: "€11" },
+                { name: "Stracchino e Pere", price: "€11" },
+                { name: "Stracchino e Crudo", price: "€12" },
+                { name: "Stracchino e Funghi", price: "€11" }
             ]
         };
         
@@ -279,6 +319,8 @@
         let touchStartX = 0;
         let touchEndX = 0;
         let autoSlideInterval;
+        let currentOpenRow = null;
+        let currentActiveCategory = null;
         
         // Add swipe event listeners
         const sliderContainer = document.getElementById('sliderContainer');
@@ -342,41 +384,79 @@
         }
         
         // Menu toggle functionality
-        function toggleMenu(category, element) {
-            const menuContainer = element.querySelector('.pizza-list');
+        function toggleMenu(category, element, rowId) {
+            const menuContainer = document.getElementById(rowId);
+            const pizzaList = menuContainer.querySelector('.pizza-list');
             
-            // If this menu is already open, close it
-            if (element.classList.contains('active')) {
-                element.classList.remove('active');
-                menuContainer.classList.remove('show');
-                setTimeout(() => {
-                    menuContainer.style.display = 'none';
-                }, 300);
-            } 
-            // If another menu is open
-            else {
-                // Close any open menus first
-                const activeElements = document.querySelectorAll('.menu-category.active');
-                activeElements.forEach(el => {
-                    el.classList.remove('active');
-                    const activeMenu = el.querySelector('.pizza-list');
-                    activeMenu.classList.remove('show');
+            // If this row is already open
+            if (currentOpenRow === rowId) {
+                // If clicking the same category, close it
+                if (currentActiveCategory === element) {
+                    currentOpenRow = null;
+                    currentActiveCategory.classList.remove('active');
+                    currentActiveCategory = null;
+                    pizzaList.classList.remove('show');
                     setTimeout(() => {
-                        activeMenu.style.display = 'none';
+                        menuContainer.style.display = 'none';
                     }, 300);
-                });
+                } 
+                // If clicking another category in the same row
+                else {
+                    currentActiveCategory.classList.remove('active');
+                    element.classList.add('active');
+                    currentActiveCategory = element;
+                    
+                    // Update menu content
+                    pizzaList.innerHTML = `
+                        <h2>${category.toUpperCase()}</h2>
+                        <div class="pizza-column">
+                            ${menus[category].slice(0, Math.ceil(menus[category].length/2)).map(pizza => 
+                                `<p>${pizza.name} - ${pizza.price}</p>`
+                            ).join('')}
+                        </div>
+                        <div class="pizza-column">
+                            ${menus[category].slice(Math.ceil(menus[category].length/2)).map(pizza => 
+                                `<p>${pizza.name} - ${pizza.price}</p>`
+                            ).join('')}
+                        </div>
+                    `;
+                }
+            } 
+            // If another row is open
+            else {
+                // Close any open rows first
+                if (currentOpenRow) {
+                    const prevContainer = document.getElementById(currentOpenRow);
+                    const prevList = prevContainer.querySelector('.pizza-list');
+                    currentActiveCategory.classList.remove('active');
+                    prevList.classList.remove('show');
+                    setTimeout(() => {
+                        prevContainer.style.display = 'none';
+                    }, 300);
+                }
                 
-                // Open the new menu
+                // Open the new row
+                currentOpenRow = rowId;
+                currentActiveCategory = element;
                 element.classList.add('active');
                 menuContainer.style.display = 'block';
                 setTimeout(() => {
-                    menuContainer.classList.add('show');
+                    pizzaList.classList.add('show');
                     
-                    // Fill menu content
-                    menuContainer.innerHTML = `<h2>${category.toUpperCase()}</h2>`;
-                    menus[category].forEach(pizza => {
-                        menuContainer.innerHTML += `<p>${pizza.name} - ${pizza.price}</p>`;
-                    });
+                    // Fill menu content in two columns
+                    pizzaList.innerHTML = `
+                        <h2>${category.toUpperCase()}</h2>
+                        <div class="pizza-column">
+                            ${menus[category].slice(0, Math.ceil(menus[category].length/2)).map(pizza => 
+                                `<p>${pizza.name} - ${pizza.price}</p>`
+                            ).join('')}
+                        </div>
+                        <div class="pizza-column">
+                            ${menus[category].slice(Math.ceil(menus[category].length/2)).map(pizza => 
+                                `<p>${pizza.name} - ${pizza.price}</p>`
+                            ).join('')}
+                        </div>
+                    `;
                 }, 10);
             }
         }
