@@ -10,21 +10,38 @@
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
         header {
             font-size: 2em;
             padding: 20px;
             background-color: #222;
         }
-        .slider {
+        .slider-container {
+            position: relative;
             width: 100%;
             height: 300px;
-            background: url('https://cdn.shopify.com/s/files/1/0274/9503/9079/files/20220211142754-margherita-9920_5a73220e-4a1a-4d33-b38f-26e98e3cd986.jpg') center/cover;
+            overflow: hidden;
+        }
+        .slider {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 1s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2em;
             font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         .menu {
             display: flex;
@@ -108,18 +125,24 @@
 </head>
 <body>
     <header>Pizzeria Grisù</header>
-    <div class="slider">Benvenuti alla Pizzeria Grisù</div>
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pizza_Maxi.jpg/1280px-Pizza_Maxi.jpg')">Benvenuti alla Pizzeria Grisù</div>
+            <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pizza-oven.jpg/1280px-Pizza-oven.jpg')">La migliore cucina italiana</div>
+            <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4c/Pizzolo.JPG')">Atmosfera accogliente</div>
+        </div>
+    </div>
     <div class="menu">
         <div class="menu-category" onclick="showMenu('classiche')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/500px-Eq_it-na_pizza-margherita_sep2005_sml.jpg" alt="LE CLASSICHE">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Wikimania_2016_Deryck_day_0_-_07_calzone.jpg/1280px-Wikimania_2016_Deryck_day_0_-_07_calzone.jpg" alt="LE CLASSICHE">
             <div>LE CLASSICHE</div>
         </div>
         <div class="menu-category" onclick="showMenu('speciali')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pizza_im_Pizzaofen_von_Maurizio.jpg/1920px-Pizza_im_Pizzaofen_von_Maurizio.jpg" alt="LE SPECIALI">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Paposcia_1.jpg" alt="LE SPECIALI">
             <div>LE SPECIALI</div>
         </div>
         <div class="menu-category" onclick="showMenu('stracchino')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pizza_Maxi.jpg/1280px-Pizza_Maxi.jpg" alt="CON STRACCHINO">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pizza_pazza_-_gnocchi_al_pesto.jpg/1280px-Pizza_pazza_-_gnocchi_al_pesto.jpg" alt="CON STRACCHINO">
             <div>CON STRACCHINO</div>
         </div>
     </div>
@@ -150,6 +173,24 @@
                 { name: "Stracchino e Noci", price: "€11" }
             ]
         };
+        
+        // اسلایدشو خودکار
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slider = document.getElementById('slider');
+        const totalSlides = slides.length;
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+        
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        
+        // هر 5 ثانیه اسلاید را تغییر دهید
+        setInterval(nextSlide, 5000);
         
         function showMenu(category) {
             const menuContainer = document.getElementById("menu-container");
