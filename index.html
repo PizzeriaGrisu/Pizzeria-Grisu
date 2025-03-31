@@ -23,6 +23,7 @@
             width: 100%;
             height: 300px;
             overflow: hidden;
+            touch-action: pan-y;
         }
         .slider {
             width: 100%;
@@ -42,6 +43,27 @@
             font-weight: bold;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            user-select: none;
+        }
+        .dots-container {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active {
+            background-color: white;
         }
         .menu {
             display: flex;
@@ -125,11 +147,16 @@
 </head>
 <body>
     <header>Pizzeria Grisù</header>
-    <div class="slider-container">
+    <div class="slider-container" id="sliderContainer">
         <div class="slider" id="slider">
             <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pizza_Maxi.jpg/1280px-Pizza_Maxi.jpg')">Benvenuti alla Pizzeria Grisù</div>
             <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pizza-oven.jpg/1280px-Pizza-oven.jpg')">La migliore cucina italiana</div>
             <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4c/Pizzolo.JPG')">Atmosfera accogliente</div>
+        </div>
+        <div class="dots-container" id="dotsContainer">
+            <div class="dot active" onclick="goToSlide(0)"></div>
+            <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="dot" onclick="goToSlide(2)"></div>
         </div>
     </div>
     <div class="menu">
@@ -178,19 +205,77 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('.dot');
         const totalSlides = slides.length;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let autoSlideInterval;
+        
+        // اضافه کردن event listeners برای swipe
+        const sliderContainer = document.getElementById('sliderContainer');
+        sliderContainer.addEventListener('touchstart', handleTouchStart, false);
+        sliderContainer.addEventListener('touchend', handleTouchEnd, false);
+        
+        function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(autoSlideInterval); // توقف اسلاید خودکار هنگام تعامل کاربر
+        }
+        
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startAutoSlide(); // شروع مجدد اسلاید خودکار پس از تعامل کاربر
+        }
+        
+        function handleSwipe() {
+            const threshold = 50; // حداقل فاصله برای تشخیص swipe
+            if (touchEndX < touchStartX - threshold) {
+                // Swipe به چپ - اسلاید بعدی
+                nextSlide();
+            } else if (touchEndX > touchStartX + threshold) {
+                // Swipe به راست - اسلاید قبلی
+                prevSlide();
+            }
+        }
         
         function nextSlide() {
             currentSlide = (currentSlide + 1) % totalSlides;
             updateSlider();
         }
         
-        function updateSlider() {
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
         }
         
-        // هر 5 ثانیه اسلاید را تغییر دهید
-        setInterval(nextSlide, 5000);
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateSlider();
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+        
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
+        }
+        
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // شروع اسلایدشو خودکار
+        startAutoSlide();
         
         function showMenu(category) {
             const menuContainer = document.getElementById("menu-container");
