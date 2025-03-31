@@ -13,7 +13,7 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            padding-bottom: 80px; /* فضای اضافه برای دکمه واتساپ */
+            padding-bottom: 80px;
         }
         header {
             font-size: 2em;
@@ -69,20 +69,33 @@
         }
         .menu {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 20px;
         }
         .menu-category {
             text-align: center;
-            width: 200px;
+            width: calc(50% - 20px);
+            max-width: 200px;
             cursor: pointer;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .menu-category.active {
+            opacity: 0.7;
+            transform: scale(0.95);
         }
         .menu-category img {
             width: 100%;
             height: 150px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.3s ease;
+        }
+        .menu-category.active img {
+            filter: brightness(0.8);
         }
         .menu-category div {
             color: white;
@@ -91,21 +104,30 @@
             background: #333;
             padding: 10px;
             border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .menu-category.active div {
+            background: #444;
+            border-radius: 5px 5px 0 0;
         }
         .pizza-list {
             display: none;
-            margin-top: 20px;
+            margin: -10px auto 20px;
             background: #222;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 0 0 10px 10px;
             opacity: 0;
-            transform: scale(0.9);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            width: calc(100% - 40px);
+            position: relative;
+            z-index: 1;
         }
         .pizza-list.show {
             display: block;
             opacity: 1;
-            transform: scale(1);
+            transform: scaleY(1);
         }
         .pizza-list h2 {
             margin-bottom: 10px;
@@ -145,7 +167,6 @@
             text-decoration: underline;
             cursor: pointer;
         }
-        /* دکمه ثابت واتساپ */
         .whatsapp-float {
             position: fixed;
             width: 60px;
@@ -172,6 +193,10 @@
             margin-top: 5px;
         }
         @media (max-width: 768px) {
+            .menu-category {
+                width: calc(50% - 10px);
+                max-width: none;
+            }
             .whatsapp-float {
                 width: 50px;
                 height: 50px;
@@ -197,20 +222,22 @@
         </div>
     </div>
     <div class="menu">
-        <div class="menu-category" onclick="showMenu('classiche')">
+        <div class="menu-category" onclick="toggleMenu('classiche', this)">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Wikimania_2016_Deryck_day_0_-_07_calzone.jpg/1280px-Wikimania_2016_Deryck_day_0_-_07_calzone.jpg" alt="LE CLASSICHE">
             <div>LE CLASSICHE</div>
+            <div class="pizza-list"></div>
         </div>
-        <div class="menu-category" onclick="showMenu('speciali')">
+        <div class="menu-category" onclick="toggleMenu('speciali', this)">
             <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Paposcia_1.jpg" alt="LE SPECIALI">
             <div>LE SPECIALI</div>
+            <div class="pizza-list"></div>
         </div>
-        <div class="menu-category" onclick="showMenu('stracchino')">
+        <div class="menu-category" onclick="toggleMenu('stracchino', this)">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pizza_pazza_-_gnocchi_al_pesto.jpg/1280px-Pizza_pazza_-_gnocchi_al_pesto.jpg" alt="CON STRACCHINO">
             <div>CON STRACCHINO</div>
+            <div class="pizza-list"></div>
         </div>
     </div>
-    <div id="menu-container" class="pizza-list"></div>
     <footer>
         <div class="footer-info">
             📍 Indirizzo: <span class="address-link" onclick="window.open('https://www.google.com/maps/place/Via+Pontevigodarzere,+38,+35133+Padova+PD/@45.4274995,11.8738792,17z/data=!3m1!4b1!4m6!3m5!1s0x477eda584a3f5e13:0x6d1f9d8e1a0a9c3e!8m2!3d45.4274995!4d11.8764541!16s%2Fg%2F11c5m1m2j0?entry=ttu', '_blank')">Via Pontevigodarzere, 38, 35133 Padova PD</span><br>
@@ -220,7 +247,6 @@
         <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2801.366971974666!2d11.8738792!3d45.4274995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477eda584a3f5e13%3A0x6d1f9d8e1a0a9c3e!2sVia%20Pontevigodarzere%2C%2038%2C%2035133%20Padova%20PD!5e0!3m2!1sit!2sit!4v1711979999999!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
     </footer>
     
-    <!-- دکمه ثابت واتساپ -->
     <a href="https://wa.me/393459741399" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -244,7 +270,7 @@
             ]
         };
         
-        // اسلایدشو خودکار
+        // Slider functionality
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const slider = document.getElementById('slider');
@@ -254,29 +280,27 @@
         let touchEndX = 0;
         let autoSlideInterval;
         
-        // اضافه کردن event listeners برای swipe
+        // Add swipe event listeners
         const sliderContainer = document.getElementById('sliderContainer');
         sliderContainer.addEventListener('touchstart', handleTouchStart, false);
         sliderContainer.addEventListener('touchend', handleTouchEnd, false);
         
         function handleTouchStart(e) {
             touchStartX = e.changedTouches[0].screenX;
-            clearInterval(autoSlideInterval); // توقف اسلاید خودکار هنگام تعامل کاربر
+            clearInterval(autoSlideInterval);
         }
         
         function handleTouchEnd(e) {
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
-            startAutoSlide(); // شروع مجدد اسلاید خودکار پس از تعامل کاربر
+            startAutoSlide();
         }
         
         function handleSwipe() {
-            const threshold = 50; // حداقل فاصله برای تشخیص swipe
+            const threshold = 50;
             if (touchEndX < touchStartX - threshold) {
-                // Swipe به چپ - اسلاید بعدی
                 nextSlide();
             } else if (touchEndX > touchStartX + threshold) {
-                // Swipe به راست - اسلاید قبلی
                 prevSlide();
             }
         }
@@ -317,28 +341,48 @@
             autoSlideInterval = setInterval(nextSlide, 5000);
         }
         
-        // شروع اسلایدشو خودکار
-        startAutoSlide();
-        
-        function showMenu(category) {
-            const menuContainer = document.getElementById("menu-container");
+        // Menu toggle functionality
+        function toggleMenu(category, element) {
+            const menuContainer = element.querySelector('.pizza-list');
             
-            // اول انیمیشن خروج را اجرا می‌کنیم
-            menuContainer.classList.remove("show");
-            
-            // بعد از اتمام انیمیشن خروج، محتوا را تغییر می‌دهیم و انیمیشن ورود را اجرا می‌کنیم
-            setTimeout(() => {
-                menuContainer.innerHTML = `<h2>${category.toUpperCase()}</h2>`;
-                menus[category].forEach(pizza => {
-                    menuContainer.innerHTML += `<p>${pizza.name} - ${pizza.price}</p>`;
+            // If this menu is already open, close it
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+                menuContainer.classList.remove('show');
+                setTimeout(() => {
+                    menuContainer.style.display = 'none';
+                }, 300);
+            } 
+            // If another menu is open
+            else {
+                // Close any open menus first
+                const activeElements = document.querySelectorAll('.menu-category.active');
+                activeElements.forEach(el => {
+                    el.classList.remove('active');
+                    const activeMenu = el.querySelector('.pizza-list');
+                    activeMenu.classList.remove('show');
+                    setTimeout(() => {
+                        activeMenu.style.display = 'none';
+                    }, 300);
                 });
                 
-                menuContainer.style.display = "block";
+                // Open the new menu
+                element.classList.add('active');
+                menuContainer.style.display = 'block';
                 setTimeout(() => {
-                    menuContainer.classList.add("show");
+                    menuContainer.classList.add('show');
+                    
+                    // Fill menu content
+                    menuContainer.innerHTML = `<h2>${category.toUpperCase()}</h2>`;
+                    menus[category].forEach(pizza => {
+                        menuContainer.innerHTML += `<p>${pizza.name} - ${pizza.price}</p>`;
+                    });
                 }, 10);
-            }, 500); // این زمان باید با مدت زمان transition در CSS برابر باشد
+            }
         }
+        
+        // Start auto slider
+        startAutoSlide();
     </script>
 </body>
 </html>
