@@ -62,6 +62,7 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .pizza-list.show {
+            display: block;
             opacity: 1;
             transform: scale(1);
         }
@@ -152,12 +153,22 @@
         
         function showMenu(category) {
             const menuContainer = document.getElementById("menu-container");
-            menuContainer.innerHTML = `<h2>${category.toUpperCase()}</h2>`;
-            menus[category].forEach(pizza => {
-                menuContainer.innerHTML += `<p>${pizza.name} - ${pizza.price}</p>`;
-            });
-            menuContainer.style.display = "block";
-            setTimeout(() => menuContainer.classList.add("show"), 10);
+            
+            // اول انیمیشن خروج را اجرا می‌کنیم
+            menuContainer.classList.remove("show");
+            
+            // بعد از اتمام انیمیشن خروج، محتوا را تغییر می‌دهیم و انیمیشن ورود را اجرا می‌کنیم
+            setTimeout(() => {
+                menuContainer.innerHTML = `<h2>${category.toUpperCase()}</h2>`;
+                menus[category].forEach(pizza => {
+                    menuContainer.innerHTML += `<p>${pizza.name} - ${pizza.price}</p>`;
+                });
+                
+                menuContainer.style.display = "block";
+                setTimeout(() => {
+                    menuContainer.classList.add("show");
+                }, 10);
+            }, 500); // این زمان باید با مدت زمان transition در CSS برابر باشد
         }
     </script>
 </body>
