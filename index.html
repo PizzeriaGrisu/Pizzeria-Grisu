@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzeria Grisù</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            background-color: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            padding-bottom: 80px;
-        }
-        header {
-            font-size: 2em;
-            padding: 20px;
-            background-color: #222;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pizzeria Grisù</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!-- لینک فونت -->
+        <style>
+            body {
+                background-color: #111;
+                color: white;
+                font-family: 'Dancing Script', cursive;;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                padding-bottom: 80px;
+            }
+            header {
+                font-size: 2em;
+                padding: 20px;
+                background-color: #222;
+                color: yellow; /* تغییر رنگ به زرد */
+                font-family: 'Pacifico', cursive; /* استفاده از فونت Pacifico */
+            }
+        
         .header-content {
             display: flex;
             align-items: center;
@@ -118,7 +122,7 @@
         }
         .menu-category div {
             color: white;
-            font-size: 1.2em;
+            font-size: 0.9em;
             margin-top: 10px;
             background: #333;
             padding: 10px;
@@ -155,6 +159,21 @@
             min-width: 200px;
             padding: 0 10px;
             text-align: left;
+        }
+        /* استایل برای موبایل */
+/* استایل برای موبایل */
+@media (max-width: 768px) {
+    .pizza-column {
+        min-width: 100%; /* ستون‌ها تمام عرض صفحه را می‌گیرند */
+        padding: 10px 0; /* فاصله بین ستون‌ها */
+    }
+}
+        .pizza-column p {
+            font-size: 15px; /* سایز فونت دلخواه */
+            font-family: 'Dancing Script', cursive; /* فونت فانتزی */
+            color: white; /* رنگ متن */
+            margin: 5px 0; /* فاصله بین خطوط */
+            text-align: left; /* متن به سمت چپ */
         }
         .pizza-list h2 {
             margin-bottom: 15px;
@@ -303,14 +322,14 @@
 .menu-title {
     color: orange;
     font-size: 32px;
-    font-family: 'Cursive', sans-serif;
+    font-family: 'Pacifico', cursive;
     font-weight: bold;
     text-align: center;
 }
 
 .menu-description {
     font-size: 18px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Dancing Script', cursive;
     color: white;
     text-align: center;
     margin-top: 10px;
