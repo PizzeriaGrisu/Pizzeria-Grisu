@@ -480,7 +480,88 @@
             📱 Cellulare: 345 974 1399
         </div>
         <a class="footer-button" href="https://www.instagram.com/pizzeria_pizza_grisu_padova?igsh=MWk0azBtNjNvdW9yOA==" target="_blank">Seguici su Instagram</a>
-
+        <div class="footer-info">
+            <div id="status" style="font-size: 1.2em; font-weight: bold; text-align: center; margin-bottom: 10px; padding: 10px; border-radius: 5px;"></div>
+            <table style="width: 100%; border-collapse: collapse; text-align: center; color: white; font-size: 0.9em; margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th style="border-bottom: 2px solid #ff6600; padding: 8px;">Giorno</th>
+                        <th style="border-bottom: 2px solid #ff6600; padding: 8px;">Orario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px;">Lunedì</td>
+                        <td style="padding: 8px;">Chiuso</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">Martedì</td>
+                        <td style="padding: 8px;">17:30 - 22:00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">Mercoledì</td>
+                        <td style="padding: 8px;">17:30 - 22:00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">Giovedì</td>
+                        <td style="padding: 8px;">17:30 - 22:00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">Venerdì</td>
+                        <td style="padding: 8px;">17:30 - 22:00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">Sabato</td>
+                        <td style="padding: 8px;">17:30 - 22:00</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;">Domenica</td>
+                        <td style="padding: 8px;">17:30 - 22:00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <script>
+            function checkStatus() {
+                const now = new Date();
+                const day = now.getDay(); // 0 = Domenica, 1 = Lunedì, ..., 6 = Sabato
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const currentTime = hour * 60 + minute; // Tempo in minuti
+        
+                const openingTime = 17 * 60 + 30; // 17:30 in minuti
+                const closingTime = 22 * 60; // 22:00 in minuti
+        
+                const statusElement = document.getElementById("status");
+        
+                if (day === 1) {
+                    statusElement.textContent = "Chiuso (Oggi è Lunedì)";
+                    statusElement.style.backgroundColor = "#ff4d4d"; // Rosso
+                    statusElement.style.color = "white";
+                } else if (currentTime >= openingTime && currentTime <= closingTime) {
+                    statusElement.textContent = "Aperto (Siamo aperti ora!)";
+                    statusElement.style.backgroundColor = "#4CAF50"; // Verde
+                    statusElement.style.color = "white";
+                } else {
+                    statusElement.textContent = "Chiuso (Siamo chiusi ora)";
+                    statusElement.style.backgroundColor = "#ff4d4d"; // Rosso
+                    statusElement.style.color = "white";
+                }
+            }
+        
+            checkStatus();
+            setInterval(checkStatus, 60000); // Aggiorna ogni minuto
+        </script>
+        <div class="footer-info" style="margin-top: 20px; text-align: center;">
+            <img src="https://upload.wikimedia.org/wikipedia/it/e/ea/2_euro.gif" alt="2 Euro Coin" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px;">
+            <p style="font-size: 1.1em; color: white; font-weight: bold; margin: 0;">
+                Consegna a domicilio solo <span style="color: #ffcc00;">2€</span>!
+            </p>
+            <p style="font-size: 0.9em; color: #cccccc; margin-top: 5px;">
+                Approfitta del nostro servizio di consegna veloce e conveniente.
+            </p>
+        </div>
         <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2801.366971974666!2d11.8738792!3d45.4274995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477eda584a3f5e13%3A0x6d1f9d8e1a0a9c3e!2sVia%20Pontevigodarzere%2C%2038%2C%2035133%20Padova%20PD!5e0!3m2!1sit!2sit!4v1711979999999!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
     </div> 
     <div class="designer-note">Designed by Kamyar T.</div>
