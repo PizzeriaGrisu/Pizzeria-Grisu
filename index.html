@@ -34,7 +34,7 @@
             gap: 15px;
         }
         .header-logo {
-            width: 115px;
+            width: 50px;
             height: 50px;
             border-radius: 5px;
             object-fit: cover;
@@ -135,6 +135,39 @@
         .menu-category.active div {
             background: #444;
         }
+        .menu-category-full {
+        text-align: center;
+        width: 100%; /* ردیف کامل */
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .menu-category-full img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .menu-category-full div {
+        color: white;
+        font-size: 1.2em;
+        margin-top: 10px;
+        background: #333;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .menu-category-full:hover img {
+        filter: brightness(0.8);
+    }
+
+    .menu-category-full:hover div {
+        background: #444;
+    }
         .pizza-list-container {
             width: 100%;
             display: none;
@@ -251,60 +284,78 @@
     color: rgba(255, 255, 255, 0.3);
     letter-spacing: 0.5px;
 }
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            left: 40px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
-        .whatsapp-float i {
-            margin-top: 5px;
-        }
-        @media (max-width: 768px) {
-            .menu-category {
-                width: calc(50% - 10px);
-                max-width: none;
-            }
-            .pizza-column {
-                min-width: 100%;
-            }
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                left: 20px;
-                font-size: 25px;
-            }
-        }
+.whatsapp-float {
+        position: fixed;
+        width: 70px; /* بزرگ‌تر کردن دکمه */
+        height: 70px; /* بزرگ‌تر کردن دکمه */
+        bottom: 80px; /* بالا بردن موقعیت */
+        left: 40px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 35px; /* بزرگ‌تر کردن آیکون */
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+    }
+
+    .instagram-float {
+        position: fixed;
+        width: 70px; /* اندازه مشابه واتس‌اپ */
+        height: 70px; /* اندازه مشابه واتس‌اپ */
+        bottom: 10px; /* زیر دکمه واتس‌اپ */
+        left: 40px;
+        background-color: #E4405F;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 35px; /* اندازه آیکون */
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .instagram-float:hover {
+        background-color: #C13584;
+        transform: scale(1.1);
+    }
+
+</style>
+
+<a href="https://wa.me/393459741399" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="https://www.instagram.com/pizzeria_pizza_grisu_padova" class="instagram-float" target="_blank">
+    <i class="fab fa-instagram"></i>
+</a>
+        
+        
     </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <img src="https://i.postimg.cc/G29BYJZZ/IMG-0717.jpg" alt="Logo" class="header-logo">
+            <img src="https://i.postimg.cc/jSJKMg6T/IMG-0725.jpg" alt="Logo" class="header-logo">
             <span>Pizzeria Grisù</span>
         </div>
     </header>
     <div class="slider-container" id="sliderContainer">
         <div class="slider" id="slider">
             <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pizza_Maxi.jpg/1280px-Pizza_Maxi.jpg')">Benvenuti alla Pizzeria Grisù</div>
-            <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pizza-oven.jpg/1280px-Pizza-oven.jpg')">La migliore cucina italiana</div>
+            <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pizza-oven.jpg/1280px-Pizza-oven.jpg')">Cottura della pizza nel forno a legna</div>
             <div class="slide" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4c/Pizzolo.JPG')">Atmosfera accogliente</div>
         </div>
         <div class="dots-container" id="dotsContainer">
@@ -332,14 +383,22 @@
 
 .menu-description {
     font-size: 18px;
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Arial', sans-serif; /* تغییر فونت به Arial */
     color: white;
     text-align: center;
     margin-top: 10px;
 }
 </style>
-
 <div class="menu">
+    <div class="menu-row" id="discount-menu-row" style="display: none;">
+        <div class="menu-category-full" onclick="toggleMenu('discount', this, 'discount-list')">
+            <img src="https://fornopiombo.com/cdn/shop/articles/are-pizza-ovens-worth-it---What-to-know---Forno-Piombo.jpg?v=1725052365" alt="MENÙ NUOVO E SCONTATO">
+            <div>MENÙ NUOVO E SCONTATO</div>
+        </div>
+        <div class="pizza-list-container" id="discount-list">
+            <div class="pizza-list"></div>
+        </div>
+    </div>
     <div class="menu-row">
         <div class="menu-category" onclick="toggleMenu('classiche', this, 'row1-list')">
             <img src="https://i.pinimg.com/736x/0a/34/c1/0a34c17ac88f93878b0d3253ffd39e1f.jpg" alt="LE CLASSICHE">
@@ -465,6 +524,19 @@
             <div class="pizza-list"></div>
         </div>
     </div>
+    <div class="menu-row">
+        <div class="menu-category" onclick="toggleMenu('alcolici', this, 'row10-list')">
+            <img src="https://thumbs.dreamstime.com/z/bottles-famous-global-beer-brands-poznan-pol-mar-including-heineken-becks-bud-miller-corona-stella-artois-san-miguel-143170440.jpg?ct=jpeg" alt="ALCOLICI">
+            <div>ALCOLICI</div>
+        </div>
+        <div class="menu-category" onclick="toggleMenu('analcolici', this, 'row10-list')">
+            <img src="https://fratellisnewyorkpizza.com/wp-content/uploads/2020/08/Drinks.jpg" alt="ANALCOLICI">
+            <div>ANALCOLICI</div>
+        </div>
+        <div class="pizza-list-container" id="row10-list">
+            <div class="pizza-list"></div>
+        </div>
+    </div>
 </div>
     
     <footer>
@@ -474,10 +546,10 @@
         </div>
         
         <div class="footer-info">
-            ☎️ Telefono: 049 887 1717
+            ☎️ Telefono: <a href="tel:0498871717" style="color: white; text-decoration: none;">049 887 1717</a>
         </div>
         <div class="footer-info">
-            📱 Cellulare: 345 974 1399
+            📱 Cellulare: <a href="tel:3459741399" style="color: white; text-decoration: none;">345 974 1399</a>
         </div>
         <a class="footer-button" href="https://www.instagram.com/pizzeria_pizza_grisu_padova?igsh=MWk0azBtNjNvdW9yOA==" target="_blank">Seguici su Instagram</a>
         <div class="footer-info">
@@ -549,7 +621,14 @@
                     statusElement.style.color = "white";
                 }
             }
-        
+            document.addEventListener("DOMContentLoaded", () => {
+    const discountMenuRow = document.getElementById("discount-menu-row");
+    if (menus.discount && menus.discount.length > 0) {
+        discountMenuRow.style.display = "flex";
+    } else {
+        discountMenuRow.style.display = "none";
+    }
+});
             checkStatus();
             setInterval(checkStatus, 60000); // Aggiorna ogni minuto
         </script>
@@ -759,6 +838,10 @@ fritti: [
     { name: "NUGGETS DI POLLO (7 pezzi)", description: "", price: "€6,00" },
     { name: "NUGGETS DI POLLO (12 pezzi)", description: "", price: "€8,00" },
     { name: "BOCCONCINI DI FORMAGGIO (7 pezzi)", description: "", price: "€5,50" }
+],
+discount: [
+    { name: "NOTHING", description: "Pom., mozz., salamino piccante", price: "€5,00" },
+    { name: "NOTHING", description: "Pom., mozz., prosciutto cotto", price: "€6,00" }
 ]
         };
         
@@ -855,36 +938,42 @@ function toggleMenu(category, element, rowId) {
             currentActiveCategory = element;
 
             pizzaList.innerHTML = `
-                <h2>${category.toUpperCase()}</h2>
-                <div class="pizza-column">
-                    ${menus[category]
-                        .slice(0, Math.ceil(menus[category].length / 2))
-                        .map(
-                            (pizza) => `
-                                <p>
-                                    <strong>${pizza.name}</strong><br>
-                                    <span style="font-size: 0.9em; font-style: italic;">(${pizza.description})</span><br>
-                                    ${pizza.price}
-                                </p>
-                            `
-                        )
-                        .join("")}
-                </div>
-                <div class="pizza-column">
-                    ${menus[category]
-                        .slice(Math.ceil(menus[category].length / 2))
-                        .map(
-                            (pizza) => `
-                                <p>
-                                    <strong>${pizza.name}</strong><br>
-                                    <span style="font-size: 0.9em; font-style: italic;">(${pizza.description})</span><br>
-                                    ${pizza.price}
-                                </p>
-                            `
-                        )
-                        .join("")}
-                </div>
-            `;
+    <h2>${category.toUpperCase()}</h2>
+    <div class="pizza-column">
+        ${menus[category]
+            .slice(0, Math.ceil(menus[category].length / 2))
+            .map(
+                (pizza) => `
+                    <p>
+                        <strong>${pizza.name} - ${pizza.price}</strong><br>
+                        ${
+                            pizza.description && pizza.description.trim() !== ""
+                                ? `<span style="font-size: 0.9em; font-style: italic;">${pizza.description}</span>`
+                                : ""
+                        }
+                    </p>
+                `
+            )
+            .join("")}
+    </div>
+    <div class="pizza-column">
+        ${menus[category]
+            .slice(Math.ceil(menus[category].length / 2))
+            .map(
+                (pizza) => `
+                    <p>
+                        <strong>${pizza.name} - ${pizza.price}</strong><br>
+                        ${
+                            pizza.description && pizza.description.trim() !== ""
+                                ? `<span style="font-size: 0.9em; font-style: italic;">${pizza.description}</span>`
+                                : ""
+                        }
+                    </p>
+                `
+            )
+            .join("")}
+    </div>
+`;
         }
     } else {
         if (currentOpenRow) {
