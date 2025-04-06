@@ -176,7 +176,7 @@
         .pizza-list {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: flex-start;
             background: #222;
             padding: 20px;
             border-radius: 10px;
@@ -190,18 +190,6 @@
             opacity: 1;
             transform: scaleY(1);
         }
-        .pizza-column {
-    flex: 1 1 45%;
-    min-width: 45%;
-    padding: 10px;
-}
-        /* استایل برای موبایل */
-/* استایل برای موبایل */
-@media (max-width: 768px) {
-    .pizza-list {
-        justify-content: space-between; /* فاصله بین ستون‌ها */
-    }
-}
         .pizza-column p {
             font-size: 15px; /* سایز فونت دلخواه */
             font-family: 'Roboto', sans-serif; /* فونت فانتزی */
@@ -216,6 +204,9 @@
             text-align: center;
             width: 100%;
         }
+        .pizza-list-items {
+            text-align: left; /* چپ‌چین کردن متن */
+}
         footer {
     margin-top: 40px;
     background: #222;
@@ -839,10 +830,7 @@ fritti: [
     { name: "NUGGETS DI POLLO (12 pezzi)", description: "", price: "€8,00" },
     { name: "BOCCONCINI DI FORMAGGIO (7 pezzi)", description: "", price: "€5,50" }
 ],
-discount: [
-    { name: "NOTHING", description: "Pom., mozz., salamino piccante", price: "€5,00" },
-    { name: "NOTHING", description: "Pom., mozz., prosciutto cotto", price: "€6,00" }
-]
+
         };
         
         // Slider functionality
@@ -919,12 +907,16 @@ discount: [
         }
         
         // Update menu rendering logic
-function toggleMenu(category, element, rowId) {
+        function toggleMenu(category, element, rowId) {
     const menuContainer = document.getElementById(rowId);
     const pizzaList = menuContainer.querySelector('.pizza-list');
 
+    // دریافت عنوان کتگوری از متن عنصر
+    const categoryTitle = element.querySelector('div').innerText;
+
     if (currentOpenRow === rowId) {
         if (currentActiveCategory === element) {
+            // بستن دسته
             currentOpenRow = null;
             currentActiveCategory.classList.remove('active');
             currentActiveCategory = null;
@@ -933,49 +925,16 @@ function toggleMenu(category, element, rowId) {
                 menuContainer.style.display = 'none';
             }, 300);
         } else {
+            // تغییر دسته در همان ردیف
             currentActiveCategory.classList.remove('active');
             element.classList.add('active');
             currentActiveCategory = element;
 
-            pizzaList.innerHTML = `
-    <h2>${category.toUpperCase()}</h2>
-    <div class="pizza-column">
-        ${menus[category]
-            .slice(0, Math.ceil(menus[category].length / 2))
-            .map(
-                (pizza) => `
-                    <p>
-                        <strong>${pizza.name} - ${pizza.price}</strong><br>
-                        ${
-                            pizza.description && pizza.description.trim() !== ""
-                                ? `<span style="font-size: 0.9em; font-style: italic;">${pizza.description}</span>`
-                                : ""
-                        }
-                    </p>
-                `
-            )
-            .join("")}
-    </div>
-    <div class="pizza-column">
-        ${menus[category]
-            .slice(Math.ceil(menus[category].length / 2))
-            .map(
-                (pizza) => `
-                    <p>
-                        <strong>${pizza.name} - ${pizza.price}</strong><br>
-                        ${
-                            pizza.description && pizza.description.trim() !== ""
-                                ? `<span style="font-size: 0.9em; font-style: italic;">${pizza.description}</span>`
-                                : ""
-                        }
-                    </p>
-                `
-            )
-            .join("")}
-    </div>
-`;
+            // به‌روزرسانی لیست پیتزاها
+            pizzaList.innerHTML = generatePizzaListHTML(category, categoryTitle);
         }
     } else {
+        // بستن دسته قبلی
         if (currentOpenRow) {
             const prevContainer = document.getElementById(currentOpenRow);
             const prevList = prevContainer.querySelector('.pizza-list');
@@ -986,43 +945,39 @@ function toggleMenu(category, element, rowId) {
             }, 300);
         }
 
+        // باز کردن دسته جدید
         currentOpenRow = rowId;
         currentActiveCategory = element;
         element.classList.add('active');
         menuContainer.style.display = 'block';
         setTimeout(() => {
             pizzaList.classList.add('show');
-            pizzaList.innerHTML = `
-    <h2>${category.toUpperCase()}</h2>
-    <div class="pizza-column">
-        ${menus[category]
-            .slice(0, Math.ceil(menus[category].length / 2))
-            .map(
-                (pizza) => `
-                    <p>
-                        <strong>${pizza.name} - ${pizza.price}</strong><br>
-                        <span style="font-size: 0.9em; font-style: italic;">(${pizza.description})</span>
-                    </p>
-                `
-            )
-            .join("")}
-    </div>
-    <div class="pizza-column">
-        ${menus[category]
-            .slice(Math.ceil(menus[category].length / 2))
-            .map(
-                (pizza) => `
-                    <p>
-                        <strong>${pizza.name} - ${pizza.price}</strong><br>
-                        <span style="font-size: 0.9em; font-style: italic;">(${pizza.description})</span>
-                    </p>
-                `
-            )
-            .join("")}
-    </div>
-`;
+            pizzaList.innerHTML = generatePizzaListHTML(category, categoryTitle);
         }, 10);
     }
+}
+
+// تابع برای تولید HTML لیست پیتزاها
+function generatePizzaListHTML(category, categoryTitle) {
+    return `
+        <h2>${categoryTitle}</h2>
+        <div class="pizza-list-items">
+            ${menus[category]
+                .map(
+                    (pizza) => `
+                        <p>
+                            <strong>${pizza.name} - ${pizza.price}</strong><br>
+                            ${
+                                pizza.description && pizza.description.trim() !== ""
+                                    ? `<span style="font-size: 0.9em; font-style: italic;">${pizza.description}</span>`
+                                    : ""
+                            }
+                        </p>
+                    `
+                )
+                .join("")}
+        </div>
+    `;
 }
         
         // Start auto slider
